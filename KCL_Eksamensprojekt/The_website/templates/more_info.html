@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center">
+    <h1>Mere Information</h1>
+    <div class="grid-container">
+        <div class="info-container">
+            <h3>De bedste og værste gennemsnitlige parametre for dig:</h3>
+            <p><strong>Bedste Region:</strong> {{ best_region }}</p>
+            <p><strong>Værste Region:</strong> {{ worst_region }}</p>
+            <p><strong>Bedste Fartøj:</strong> {{ best_vehicle }}</p>
+            <p><strong>Værste Fartøj:</strong> {{ worst_vehicle }}</p>
+        </div>
+        <div class="results-container">
+            <h3>Alle Mulige Kombinationer</h3>
+            <button id="toggle-results-btn" class="btn btn-secondary mt-3">Vis Alle Resultater</button>
+            <div id="all-results" style="display: none;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Type af Fartøj</th>
+                            <th>Udfald</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for region, results in grouped_results.items() %}
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ region }}</td>
+                                <td>{{ result.vehicle }}</td>
+                                <td>{{ result.prediction }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('toggle-results-btn').addEventListener('click', function() {
+    const allResults = document.getElementById('all-results');
+    if (allResults.style.display === 'none') {
+        allResults.style.display = 'block';
+        this.textContent = 'Luk Alle Resultater';
+    } else {
+        allResults.style.display = 'none';
+        this.textContent = 'Vis Alle Resultater';
+    }
+});
+</script>
+{% endblock %}
